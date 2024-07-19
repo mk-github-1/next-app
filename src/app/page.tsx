@@ -11,10 +11,14 @@ import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-mod
 import { ColDef, ModuleRegistry } from '@ag-grid-community/core'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-balham.css'
-import { usePersonService } from '../app/_hooks/services/usePersonService'
+ModuleRegistry.registerModules([ClientSideRowModelModule])
+
+// types
 import { ISampleTableItem } from '../app/_types/ISampleTableItem'
 
-ModuleRegistry.registerModules([ClientSideRowModelModule])
+// custom hook
+import { usePersonService } from '../app/_hooks/services/usePersonService'
+import { useSharePointTestService } from './_hooks/services/useSharePointTestService'
 
 const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
 
@@ -32,6 +36,7 @@ export default function Page() {
 
   // custom hook
   const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
+  const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
 
   // persons の変化を監視し、テーブルを更新する
   useEffect(() => {
@@ -51,6 +56,10 @@ export default function Page() {
   }, [persons])
 
   const onGet = async () => {
+    await getPerson()
+  }
+
+  const onSharePointTest = async () => {
     await getPerson()
   }
 
