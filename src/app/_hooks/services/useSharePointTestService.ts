@@ -24,7 +24,7 @@ export const useSharePointTestService = (
       url: API_URL,
       params: '', // paramsをGETパラメータとして使用する
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })
@@ -52,7 +52,7 @@ export const useSharePointTestService = (
       url: API_URL,
       data: fileTest,
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })

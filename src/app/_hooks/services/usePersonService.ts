@@ -20,7 +20,7 @@ export const usePersonService = (
       url: API_URL,
       params: '', // paramsをGETパラメータとして使用する
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })
@@ -45,7 +45,7 @@ export const usePersonService = (
       url: API_URL,
       data: person, // JSON.stringifyは必要？
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })
@@ -68,7 +68,7 @@ export const usePersonService = (
       url: API_URL,
       data: person, // JSON.stringifyは必要？
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })
@@ -91,7 +91,7 @@ export const usePersonService = (
       url: API_URL,
       data: person, // JSON.stringifyは必要？
       headers: {
-        // 'Bearer-Token': '' ※必要？
+        // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
       }
     })
