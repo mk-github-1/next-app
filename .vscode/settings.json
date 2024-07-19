@@ -1,0 +1,14 @@
+{
+  // VS Code ターミナルのセキュリティポリシー設定
+  "terminal.integrated.env.windows": {
+    "PSExecutionPolicyPreference": "RemoteSigned"
+  },
+  // ES Lintの追加設定
+  "eslint.useESLintClass": true,
+  // VS Code Prettierの設定
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
+}
