@@ -33,6 +33,7 @@ export default function Page() {
   ])
 
   const [rowData, setRowData] = useState<ISampleTableItem[]>([])
+  const [files, setFiles] = useState<File[]>([])
 
   // custom hook
   const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
@@ -56,11 +57,25 @@ export default function Page() {
   }, [persons])
 
   const onGet = async () => {
+    await getFileTest()
+  }
+
+  const onGetSharePoint = async () => {
     await getPerson()
   }
 
-  const onSharePointTest = async () => {
-    await getPerson()
+  const fileHandler = (event: any) => {
+    const files = event.target.files
+    if (files && files.length > 0) {
+      setFiles(Array.from(files))
+    }
+  }
+
+  const onPostSharePoint = async () => {
+    // const file: File = document.getElementById('fileInput')
+
+    // ファイルの内容を処理
+    await postFileTest(files)
   }
 
   return (
@@ -74,6 +89,13 @@ export default function Page() {
       <div className="mt-1">
         <button className="btn btn-primary mr-1" onClick={onGet}>
           onGetテスト
+        </button>
+        <button className="btn btn-primary mr-1" onClick={onGetSharePoint}>
+          onGetSharePoint
+        </button>
+        <input type="file" onChange={fileHandler} multiple />
+        <button className="btn btn-primary mr-1" onClick={onPostSharePoint}>
+          onPostSharePoint
         </button>
       </div>
       <ul>

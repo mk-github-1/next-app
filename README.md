@@ -1,11 +1,3 @@
-## npm install (Next.jsとbackendで共通)
-npm install @popperjs/core @hookform/resolvers ajv axios ag-grid-react bcrypt chart.js cors class-transformer fs-extra inversify jsonwebtoken localforage luxon pluralize react react-dom react-hook-form react-select styled-components sqlite3 typeorm
-
-npm install --save-dev @types/bcrypt @types/cors @types/fs-extra @types/jsonwebtoken @types/luxon @types/node @types/pluralize @types/react @types/react-dom @types/sqlite3 @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react-hooks eslint @types/styled-components typescript
-
-入れてないもの
-prettier、reflect-metadataは不要？ @types/ajv @mui/material @emotion/react @emotion/styledは削除
-
 ## プロジェクトフォルダ構成
 /public  : (Next.js静的ファイル格納)
 
@@ -47,6 +39,26 @@ prettier、reflect-metadataは不要？ @types/ajv @mui/material @emotion/react 
 
 　/data             : SQLite3の場合 ※練習用なので簡易DBを利用
     data.db
+
+
+## npm install (Next.jsとbackendで共通)
+npm install @popperjs/core @hookform/resolvers ajv axios ag-grid-react bcrypt chart.js cors class-transformer fs-extra inversify jsonwebtoken localforage luxon pluralize react react-dom react-hook-form react-select styled-components sqlite3 typeorm
+
+npm install --save-dev @types/bcrypt @types/cors @types/fs-extra @types/jsonwebtoken @types/luxon @types/node @types/pluralize @types/react @types/react-dom @types/sqlite3 @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react-hooks eslint @types/styled-components typescript
+
+// SharePoint検証用
+npm install node-sp-auth request-promise gd-sprest
+npm install --save-dev @types/request-promise
+
+SharePoint での認証に使用されるnode-sp-auth 
+HTTP リクエストを実行するために使用されるrequest-promise
+gd-sprest はHTTPリクエスト形式の生成に使用されます
+
+
+入れてないもの
+prettier、reflect-metadataは不要？ @types/ajv @mui/material @emotion/react @emotion/styledは削除
+
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
