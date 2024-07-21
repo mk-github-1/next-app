@@ -45,7 +45,7 @@ export const usePersonService = (
     await axios({
       method: 'post',
       url: API_URL,
-      data: person, // JSON.stringifyは必要？
+      data: JSON.stringify(person), // JSON.stringifyは必要？
       headers: {
         // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const usePersonService = (
     await axios({
       method: 'patch',
       url: API_URL,
-      data: person, // JSON.stringifyは必要？
+      data: JSON.stringify(person), // JSON.stringifyは必要？
       headers: {
         // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ export const usePersonService = (
     await axios({
       method: 'delete',
       url: API_URL,
-      data: person, // JSON.stringifyは必要？
+      data: JSON.stringify(person), // JSON.stringifyは必要？
       headers: {
         // Authorization: 'Bearer ' + accessToken, など
         'Content-Type': 'application/json'
