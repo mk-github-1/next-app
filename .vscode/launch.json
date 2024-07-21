@@ -22,7 +22,7 @@
       "name": "Next.js: debug full stack",
       "type": "node-terminal",
       "request": "launch",
-      "cwd": "${workspaceFolder}/app",
+      "cwd": "${workspaceFolder}/src/app",
       "command": "npm run dev",
       "serverReadyAction": {
         // "pattern": "- Local:.+(https?://.+)",
