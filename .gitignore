@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# hidden
+src/app/(dashboard)/XRedirect
+useXOauth2Service.ts
+useXService.ts
+memo_hidden.txt

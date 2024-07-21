@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
 export const usePersonService = (
@@ -27,8 +27,8 @@ export const usePersonService = (
       }
     })
       .then((response: AxiosResponse<Record<string, string>[]>) => {
-        const persons: Record<string, string>[] = response.data
-        setPersons(persons)
+        const results: Record<string, string>[] = response.data
+        setPersons(results)
         setIsError(false)
       })
       .catch((response: AxiosError) => {

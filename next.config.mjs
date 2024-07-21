@@ -9,6 +9,7 @@ const nextConfig = {
   env: {
     // url: 127.0.0.1とlocalhostは同じ？、axiosはlocalhostだと解釈しない？
     // 本番環境はhttps:の必要がある
+    // デバッグ時と本番時に切り替えしたい
     SYSTEM_URL: 'http://localhost:3000',
     SYSTEM_API_URL: 'http://localhost:3000/api'
   },

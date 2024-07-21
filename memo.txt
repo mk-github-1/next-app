@@ -1,0 +1,147 @@
+# SharePoint Rest APIメモ
+
+公式ドキュメント: REST を使用してフォルダーとファイルを操作する
+https://learn.microsoft.com/ja-jp/sharepoint/dev/sp-add-ins/working-with-folders-and-files-with-rest
+
+# SharePoint Rest API URL形式の基本
+https://{A}.sharepoint.com/sites/{B}{/C}/_api/web/{実行メソッド}
+
+1. {A}=tenant-name
+2. {B}=site-collection-name
+3. {C}=/sub-site-name ※サブサイトがある場合のみ
+4. {D}=folder-name ※例: Shared%20Documents、'/'は'%20'
+5. {E}=list-id ※例: %7B9740eadc-687f-4c31-bc60-5461d1f58db3%7D
+
+(注意点)
+・ドキュメントライブラリ　初回の新規作成時のみ英語名を指定するとその名前が設定(URLに表示)
+　　　　　　　　　　　　　日本語の場合はランダム名が設定(URLに表示)
+・リスト　APIを操作する時は、list-titleでなく、変動しないlist-idを使用する必要がある
+　　　　　list-titleについては、初回の新規作成時のみ英語名を指定するとその名前が設定(URLに表示)
+        　日本語の場合はランダム名またはが設定、日本語の場合はエンコード文字として設定
+
+# 動作確認
+ブラウザまたはPostManなどの動作検証ツールで検証可能。
+※ブラウザで確認のみでよいかも、ブラウザ上はダウンロード、
+バックエンドであればバイナリが取得されるはず
+
+# スクラッチシステムからアクセス(HTTPリクエスト)するときの注意事項
+スクラッチシステムからアクセス(HTTPリクエスト)するには、プログラムでHTTPクライアントを用いて、
+認証に必要なBearerトークンの発行と、オリジン間リソース共有(CORS)の調整が必要になる。
+
+SharePointのアクセス権限があれば、ブラウザまたはPower Automateから動作確認ができるものもある。
+
+・HTTPリクエストの認証に必要なBearerトークンを発行する必要がある。
+SharePoint管理者がアクセスできる管理パネルでの発行とアプリから認証手順を踏む必要がある。
+
+(必要なHTTPヘッダ)
+Authorization: 'Bearer ' + accessToken
+Accept: 'application/json;odata=verbose'
+
+・オリジン間リソース共有(CORS)について
+ドメインA → ドメインB にアクセスするにはその設定が必要ということ。
+システム(クライアント側)からSharePoint(サーバー側)にアクセスするためには、CORSを解決する必要がある
+SharePointにはCORSの設定ができないため、通常のシステムではサーバー側にCORSの設定が可能。
+
+システム(クライアント側)にSharePointアクセス専用のHTTPクライアントが必要になると思われる。
+
+あくまでサーバー側の課題ですが、HTTPリクエスト時のヘッダにも設定が必要な場合がある
+
+(必要なHTTPヘッダ)
+Origin: 'https://xxx.sharepoint.com'
+
+# SharePoint REST API ドキュメントライブラリの操作
+公式ドキュメントの抜粋になります。
+
+・フォルダ内のすべてのファイルを取得 (GET)
+・特定のファイルを取得 (GET)
+・URLがわかっている場合はファイルを取得する (GET)
+・ファイルを作成してフォルダーに追加する (POST)
+・PUT メソッドを使用してファイルを更新する (PUT)
+・ファイルをチェックアウトする (POST)
+・ファイルをチェックインする (POST)
+・ファイルを削除する (POST ※DELETEが正しい？)
+
+## フォルダ内のすべてのファイルを取得
+GET https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFolderByServerRelativeUrl('/sites/{B}{C}/{D}')/Files
+method: GET
+Authorization: 'Bearer ' + accessToken
+Accept: 'application/json;odata=verbose'
+
+## 特定のファイルを取得
+GET https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFolderByServerRelativeUrl('/sites/{B}{C}/{D}')/Files('{file-name}')/$value
+Authorization: 'Bearer ' + accessToken
+
+## URLがわかっている場合はファイルを取得する
+GET https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFileByServerRelativeUrl('/sites/{B}{C}/{D}/{file-name}')/$value
+Authorization: 'Bearer ' + accessToken
+
+## ファイルを作成してフォルダーに追加する
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFolderByServerRelativeUrl('/sites/{B}{C}/{D}')/Files/add(url='a.txt',overwrite=true)
+Authorization: 'Bearer ' + accessToken
+Content-Length: {length of request body as integer}
+X-RequestDigest: '{form_digest_value}'
+
+'Contents of file'
+
+## PUT メソッドを使用してファイルを更新する
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFileByServerRelativeUrl('/sites/{B}{C}/{D}/{file-name}')/$value
+Authorization: 'Bearer ' + accessToken
+Content-Length: {length of request body as integer}
+X-HTTP-Method: 'PUT'
+X-RequestDigest: '{form_digest_value}'
+
+'Contents of file'
+
+## ファイルをチェックアウトする
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFileByServerRelativeUrl('/sites/{B}{C}/{D}/{file-name}')/CheckOut(),
+Authorization: 'Bearer ' + accessToken
+X-RequestDigest: '{form_digest_value}'
+
+## ファイルをチェックインする
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFileByServerRelativeUrl('/sites/{B}{C}/{D}/{file-name}')/CheckIn(comment='Comment',checkintype=0)
+Authorization: 'Bearer ' + accessToken
+X-RequestDigest: '{form_digest_value}'
+
+## ファイルを削除する
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/GetFileByServerRelativeUrl('/sites/{B}{C}/{D}/{file-name}')
+Authorization: 'Bearer ' + accessToken
+If-Match: '{etag or *}'
+X-HTTP-Method: 'DELETE'
+X-RequestDigest: '{form_digest_value}'
+
+-----
+(不要)
+# SharePoint REST API リストの添付ファイルの操作
+公式ドキュメントの抜粋になります。
+
+・リストアイテムに添付されているすべてのファイルを取得する
+・リストアイテムに添付されているファイルを取得する
+・リストアイテムの添付ファイルを作成する
+・PUTメソッドを使用してリストアイテムの添付ファイルを更新する
+
+## リストアイテムに添付されているすべてのファイルを取得する
+GET https://{A}.sharepoint.com/sites/{B}{C}/_api/web/lists('{F}')/items({item-id})/AttachmentFiles/
+Authorization: 'Bearer ' + accessToken
+Accept: 'application/json;odata=verbose'
+
+## リストアイテムに添付されているファイルを取得する
+GET https://{A}.sharepoint.com/sites/{B}{C}/_api/web/lists('{F}')/items({item-id})/AttachmentFiles('{file-name}')/$value
+Authorization: 'Bearer ' + accessToken
+Accept: 'application/json;odata=verbose'
+
+## リストアイテムの添付ファイルを作成する
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/lists('{F}')/items({item-id})/AttachmentFiles/ add(FileName='{file-name}')
+Authorization: 'Bearer ' + accessToken
+Content-Length: {length of request body as integer}
+X-RequestDigest: '{form_digest_value}'
+
+'Contents of file'
+
+## PUTメソッドを使用してリストアイテムの添付ファイルを更新する
+POST https://{A}.sharepoint.com/sites/{B}{C}/_api/web/lists('{F}')/items({item-id})/AttachmentFiles('{file-name}')/$value
+Authorization: 'Bearer ' + accessToken
+Content-Length: {length of request body as integer}
+X-HTTP-Method: 'PUT'
+X-RequestDigest: '{form_digest_value}'
+
+'Contents of file'
