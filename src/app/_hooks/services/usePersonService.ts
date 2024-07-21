@@ -20,8 +20,10 @@ export const usePersonService = (
       url: API_URL,
       params: '', // paramsをGETパラメータとして使用する
       headers: {
+        // Accept: 'application/json;odata=verbose', などGET時のみ、必要であれば
         // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
+        // Origin: 'https://xxx.com' HTTPリクエストのCORS設定、ドメインが異なれば
       }
     })
       .then((response: AxiosResponse<Record<string, string>[]>) => {
@@ -47,6 +49,7 @@ export const usePersonService = (
       headers: {
         // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
+        // Origin: 'https://xxx.com' HTTPリクエストのCORS設定、ドメインが異なれば
       }
     })
       .then((response: AxiosResponse<string>) => {
@@ -70,6 +73,7 @@ export const usePersonService = (
       headers: {
         // Authorization: 'Bearer ' + accessToken など
         'Content-Type': 'application/json'
+        // Origin: 'https://xxx.com' HTTPリクエストのCORS設定、ドメインが異なれば
       }
     })
       .then((response: AxiosResponse<string>) => {
@@ -91,8 +95,9 @@ export const usePersonService = (
       url: API_URL,
       data: person, // JSON.stringifyは必要？
       headers: {
-        // Authorization: 'Bearer ' + accessToken など
+        // Authorization: 'Bearer ' + accessToken, など
         'Content-Type': 'application/json'
+        // Origin: 'https://xxx.com' HTTPリクエストのCORS設定、ドメインが異なれば
       }
     })
       .then((response: AxiosResponse<string>) => {
