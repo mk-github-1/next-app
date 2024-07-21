@@ -14,11 +14,12 @@ import 'ag-grid-community/styles/ag-theme-balham.css'
 ModuleRegistry.registerModules([ClientSideRowModelModule])
 
 // interface / types
-import { IAgGridField } from '@/app/_types/_aggrid/AgGrid'
-import { ISampleTableItem } from '@/app/_types/ISampleTableItem'
+// import { IAgGridField } from '@/app/_types/_aggrid/AgGrid'
+// import { ISampleTableItem } from '@/app/_types/ISampleTableItem'
 
 // custom hook
 import { usePersonService } from '@/app/_hooks/services/usePersonService'
+import { GridOptions } from 'ag-grid-community'
 // import { useSharePointTestService } from '@/apps/_hooks/services/useSharePointTestService'
 
 const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
@@ -27,8 +28,8 @@ const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
 // ローカル実行のためログイン機能は実装していない
 // マウントが終わるまでボタンを有効にしないようにする
 export default function Page() {
-  // Ag Grid
-  const columnDefs: IAgGridField[] = [
+  // Ag Grid ※利用する型の調査必要
+  const columnDefs = [
     { rowDrag: true, field: 'rowDrag', headerName: '', width: 40 },
     { field: 'personName', headerName: '名前', width: 140 },
     { field: 'personCode', headerName: 'コード', width: 140 }
@@ -36,18 +37,17 @@ export default function Page() {
 
   const [rowData, setRowData] = useState([])
 
-  const gridOptions = {
+  const gridOptions: GridOptions = {
     columnDefs: columnDefs,
-    rowData: rowData,
-    // Row Dragの監視によってテーブルの内部データを更新する必要がある
-    onDataChanged: (params) => {
-      setRowData(params.api.getRowData())
-    }
+    rowDragManaged: true
   }
 
   const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
 
-  // persons の変化を監視し、テーブルを更新する
+  // personsの変化を監視し、テーブルを更新する
+  // 直接setRowDataをする場合はuseCallbackを使用する
+  // カスタムフックの場合はpersonsをuseEffeceで監視するのみ
+  // row dragは追従せず、現在のデータを取得する
   useEffect(() => {
     if (!persons.length) {
       setRowData([])
@@ -55,11 +55,13 @@ export default function Page() {
     }
 
     const results = persons.map((element: Record<string, string>) => {
-      return {
+      const row = {
         personName: element.personName,
         personCode: element.personCode
       }
-    })
+
+      return row
+    }, [])
 
     setRowData(results)
   }, [persons])
@@ -95,7 +97,7 @@ export default function Page() {
         Get started by editing <code>src/app/page.tsx</code>
       </div>
       <div className="ag-theme-balham" style={{ height: 300, marginTop: '5px' }}>
-        <AgGridReact rowData={rowData} columnDefs={columnDefs} /* gridOptions={gridOptions} */ />
+        <AgGridReact gridOptions={gridOptions} rowData={rowData} />
       </div>
       <div className="row mt-1">
         <div className="col-sm">
