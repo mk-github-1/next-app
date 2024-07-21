@@ -37,7 +37,7 @@ export default function Page() {
 
   // custom hook
   const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
-  const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
+  // const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
 
   // persons の変化を監視し、テーブルを更新する
   useEffect(() => {
@@ -57,25 +57,18 @@ export default function Page() {
   }, [persons])
 
   const onGet = async () => {
-    await getFileTest()
+    await getPerson()
   }
 
   const onGetSharePoint = async () => {
-    await getPerson()
+    // await getFileTest()
   }
 
   const fileHandler = (event: any) => {
     const files = event.target.files
     if (files && files.length > 0) {
-      setFiles(Array.from(files))
+      // setFiles(Array.from(files))
     }
-  }
-
-  const onPostSharePoint = async () => {
-    // const file: File = document.getElementById('fileInput')
-
-    // ファイルの内容を処理
-    await postFileTest(files)
   }
 
   return (
@@ -94,7 +87,7 @@ export default function Page() {
           onGetSharePoint
         </button>
         <input type="file" onChange={fileHandler} multiple />
-        <button className="btn btn-primary mr-1" onClick={onPostSharePoint}>
+        <button className="btn btn-primary mr-1" onClick={onGetSharePoint}>
           onPostSharePoint
         </button>
       </div>
