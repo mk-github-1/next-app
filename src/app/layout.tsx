@@ -43,13 +43,13 @@ const RootLayout = ({
               <nav>Menu</nav>
             </div>
           </div>
-          <div style={{ borderTop: '1px solid gray', flex: 1, overflowY: 'auto' }}>
+          <div style={{ borderTop: '1px solid gray', flex: 1, overflowY: 'auto', overflowX: 'hidden' }}>
             <div style={{ margin: '5px' }}>
               <main>{children}</main>
             </div>
           </div>
           <div style={{ borderTop: '1px solid gray' }}>
-            <div style={{ margin: '10px' }}>
+            <div style={{ margin: '5px' }}>
               <footer>
                 Footer
                 <Image
@@ -59,7 +59,7 @@ const RootLayout = ({
                   width={45}
                   height={10}
                   priority
-                  style={{ marginLeft: '10px' }}
+                  style={{ marginLeft: '5px' }}
                 />
               </footer>
             </div>
