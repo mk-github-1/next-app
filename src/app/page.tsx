@@ -18,8 +18,9 @@ ModuleRegistry.registerModules([ClientSideRowModelModule])
 // import { ISampleTableItem } from '@/app/_types/ISampleTableItem'
 
 // custom hook
-import { usePersonService } from '@/app/_hooks/services/usePersonService'
+import { usePersonService } from '@/app/_hooks/_services/usePersonService'
 import { GridOptions } from 'ag-grid-community'
+import { ISampleTableItem } from './_types/ISampleTableItem'
 // import { useSharePointTestService } from '@/apps/_hooks/services/useSharePointTestService'
 
 const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
@@ -29,13 +30,13 @@ const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
 // マウントが終わるまでボタンを有効にしないようにする
 export default function Page() {
   // Ag Grid ※利用する型の調査必要
-  const columnDefs = [
+  const columnDefs: ColDef[] = [
     { rowDrag: true, field: 'rowDrag', headerName: '', width: 40 },
     { field: 'personName', headerName: '名前', width: 140 },
     { field: 'personCode', headerName: 'コード', width: 140 }
   ]
 
-  const [rowData, setRowData] = useState([])
+  const [rowData, setRowData] = useState<ISampleTableItem[]>([])
 
   const gridOptions: GridOptions = {
     columnDefs: columnDefs,
@@ -54,7 +55,7 @@ export default function Page() {
       return
     }
 
-    const results = persons.map((element: Record<string, string>) => {
+    const results: ISampleTableItem[] = persons.map((element: Record<string, string>) => {
       const row = {
         personName: element.personName,
         personCode: element.personCode
