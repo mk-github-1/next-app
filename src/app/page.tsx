@@ -3,7 +3,7 @@
 // Next
 // import Image from 'next/image'
 // import styles from './page.module.css'
-import { memo, useEffect, useState } from 'react'
+import { memo, SetStateAction, useEffect, useState } from 'react'
 
 // AG Grid
 import { AgGridReact } from 'ag-grid-react'
@@ -28,18 +28,24 @@ const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
 // マウントが終わるまでボタンを有効にしないようにする
 export default function Page() {
   // Ag Grid
-  const [columnDefs, setColDefs] = useState<IAgGridField[]>([
+  const columnDefs: IAgGridField[] = [
     { rowDrag: true, field: 'rowDrag', headerName: '', width: 40 },
     { field: 'personName', headerName: '名前', width: 140 },
     { field: 'personCode', headerName: 'コード', width: 140 }
-  ])
+  ]
 
-  const [rowData, setRowData] = useState<ISampleTableItem[]>([])
-  const [files, setFiles] = useState<File[]>([])
+  const [rowData, setRowData] = useState([])
 
-  // custom hook
+  const gridOptions = {
+    columnDefs: columnDefs,
+    rowData: rowData,
+    // Row Dragの監視によってテーブルの内部データを更新する必要がある
+    onDataChanged: (params) => {
+      setRowData(params.api.getRowData())
+    }
+  }
+
   const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
-  // const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
 
   // persons の変化を監視し、テーブルを更新する
   useEffect(() => {
@@ -48,7 +54,7 @@ export default function Page() {
       return
     }
 
-    const results: ISampleTableItem[] = persons.map((element: Record<string, string>) => {
+    const results = persons.map((element: Record<string, string>) => {
       return {
         personName: element.personName,
         personCode: element.personCode
@@ -57,6 +63,10 @@ export default function Page() {
 
     setRowData(results)
   }, [persons])
+
+  // SharePoint Rest API テスト
+  // const [files, setFiles] = useState<File[]>([])
+  // const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
 
   const onGet = async () => {
     await getPerson()
@@ -85,7 +95,7 @@ export default function Page() {
         Get started by editing <code>src/app/page.tsx</code>
       </div>
       <div className="ag-theme-balham" style={{ height: 300, marginTop: '5px' }}>
-        <AgGridReact rowData={rowData} columnDefs={columnDefs} />
+        <AgGridReact rowData={rowData} columnDefs={columnDefs} /* gridOptions={gridOptions} */ />
       </div>
       <div className="row mt-1">
         <div className="col-sm">
