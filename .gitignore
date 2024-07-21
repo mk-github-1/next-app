@@ -36,7 +36,7 @@ yarn-error.log*
 next-env.d.ts
 
 # hidden
+src/app/(dashboard)/X
 src/app/(dashboard)/XRedirect
-useXOauth2Service.ts
-useXService.ts
+src/app/_hooks/_services/_X
 memo_hidden.txt
