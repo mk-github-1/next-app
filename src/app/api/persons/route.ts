@@ -1,6 +1,6 @@
 // import {} from 'next'
-import axios from 'axios'
-import { AxiosError, AxiosResponse } from 'axios'
+// import axios from 'axios'
+// import { AxiosError, AxiosResponse } from 'axios'
 
 export async function GET(request: Request) {
   try {

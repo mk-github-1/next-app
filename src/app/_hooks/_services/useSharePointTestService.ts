@@ -5,11 +5,7 @@ import spauth from 'node-sp-auth'
 import request from 'request-promise'
 import REST from 'gd-sprest'
 
-export const useSharePointTestService = (
-  systemApiUrl: string,
-  params: Record<string, string>,
-  item: Record<string, string>
-) => {
+export const useSharePointTestService = (apiUrl: string) => {
   const USERNAME = '[SPO Login]'
   const PASSWORD = '[SPO Password]'
   const API_URL: string = 'https://xxx.sharepoint.com/sites/SharePointTest/Shared%20Documents/Forms/AllItems.aspx'

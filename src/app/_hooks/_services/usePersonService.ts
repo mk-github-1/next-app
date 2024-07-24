@@ -1,17 +1,13 @@
 import { useState } from 'react'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 
-export const usePersonService = (
-  systemApiUrl: string,
-  params: Record<string, string>,
-  item: Record<string, string>
-) => {
+export const usePersonService = (apiUrl: string) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
   const [persons, setPersons] = useState<Record<string, string>[]>([])
-  const API_URL: string = systemApiUrl + '/persons'
+  const API_URL: string = apiUrl + '/persons'
 
-  const getPerson = async (): Promise<void> => {
+  const getPerson = async (params: Record<string, string>[]): Promise<void> => {
     setIsError(false)
     setIsLoading(true)
 

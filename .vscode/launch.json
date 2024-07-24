@@ -2,17 +2,23 @@
   // IntelliSense を使用して利用可能な属性を学べます。
   // 既存の属性の説明をホバーして表示します。
   // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
-  "version": "0.2.0",
   "configurations": [
+    // launch & server
     {
-      "name": "Next.js: debug server-side",
-      "type": "node-terminal",
+      "name": "launch",
+      "type": "node", // node-terminal？
       "request": "launch",
-      "command": "npm run dev",
-      "skipFiles": ["<node_internals>/**"]
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      // node-terminal用 "command": "npm run dev",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+      "restart": true,
+      "sourceMaps": true
     },
     {
-      "name": "Next.js: debug client-side",
+      "name": "browser",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
@@ -33,33 +39,10 @@
       "skipFiles": ["<node_internals>/**"]
     }
   ],
-  /*
-  "configurations": [
-    // launch & server
-    {
-      "name": "launch",
-      "type": "node",
-      "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"],
-      "restart": true,
-      "sourceMaps": true
-    },
-    {
-      "name": "browser",
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:3000",
-      "skipFiles": ["<node_internals>/**"]
-    }
-  ]*/
   "compounds": [
     {
       "name": "compound-launch",
-      "configurations": ["Next.js: debug client-side", "Next.js: debug full stack"],
+      "configurations": ["launch", "browser"],
       "stopAll": true
     }
   ]

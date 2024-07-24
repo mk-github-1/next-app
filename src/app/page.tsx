@@ -20,7 +20,7 @@ ModuleRegistry.registerModules([ClientSideRowModelModule])
 // custom hook
 import { usePersonService } from '@/app/_hooks/_services/usePersonService'
 import { GridOptions } from 'ag-grid-community'
-import { ISampleTableItem } from './_types/ISampleTableItem'
+import { ISampleTableItem } from '@/app/_types/ISampleTableItem'
 // import { useSharePointTestService } from '@/apps/_hooks/services/useSharePointTestService'
 
 const SYSTEM_API_URL: string = process.env.SYSTEM_API_URL || ''
@@ -43,7 +43,7 @@ export default function Page() {
     rowDragManaged: true
   }
 
-  const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL, {}, {})
+  const { persons, getPerson, postPerson, patchPerson, deletePerson } = usePersonService(SYSTEM_API_URL)
 
   // personsの変化を監視し、テーブルを更新する
   // 直接setRowDataをする場合はuseCallbackを使用する
@@ -72,7 +72,7 @@ export default function Page() {
   // const { getFileTest, postFileTest } = useSharePointTestService(SYSTEM_API_URL, {}, {})
 
   const onGet = async () => {
-    await getPerson()
+    await getPerson([])
   }
 
   /* デバッグ実行で失敗するのでコメントアウト
