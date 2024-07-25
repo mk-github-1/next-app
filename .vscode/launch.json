@@ -12,19 +12,10 @@
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
         "action": "debugWithChrome"
-      }
-      // "skipFiles": ["<node_internals>/**"],
+      },
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
-  /*,
-  "compounds": [
-    {
-      "name": "compound-launch",
-      "configurations": ["launch", "browser"],
-      "stopAll": true
-    }
-  ]
-   */
 }
 
 /*
