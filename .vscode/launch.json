@@ -28,15 +28,13 @@
       "name": "Next.js: debug full stack",
       "type": "node-terminal",
       "request": "launch",
-      "cwd": "${workspaceFolder}/src/app",
       "command": "npm run dev",
       "serverReadyAction": {
-        // "pattern": "- Local:.+(https?://.+)",
-        "pattern": "- Local:.+(https://.+)",
+        "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
         "action": "debugWithChrome"
-      },
-      "skipFiles": ["<node_internals>/**"]
+      }
+      // "skipFiles": ["<node_internals>/**"],
     }
   ],
   "compounds": [
