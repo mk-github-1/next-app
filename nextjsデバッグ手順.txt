@@ -1,0 +1,15 @@
+# 公式手順をこれを追加しても動かない
+"dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+   
+# 公式手順のlaunch.json設定を追加すると、全てデバッグできる
+{
+  "name": "Next.js: debug full stack",
+  "type": "node-terminal",
+  "request": "launch",
+  "command": "npm run dev",
+  "serverReadyAction": {
+    "pattern": "- Local:.+(https?://.+)",
+    "uriFormat": "%s",
+    "action": "debugWithChrome"
+  }
+}
